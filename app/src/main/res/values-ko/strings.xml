@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">file-picker</string>
+
+    <string name="btn.select">선택</string>
+    <string name="btn.cancel">취소</string>
+    <string name="toast.write_post.attach_file_limit">%d개의 파일만 선택할 수 있습니다</string>
+    <string name="alert.write_post.file_size_limit.android">%dMB보다 작은 파일만 선택할 수 있습니다</string>
+    <string name="toast.device.storage_removed">불러올 수 없는 파일입니다</string>
+    <string name="toast.write_post.attach_file_error">파일 선택 오류</string>
+    <string name="toast.write_post.attach_incorrect_file_format">잘못된 파일 형식입니다</string>
+    <string name="count.device_storage.select_file">%d개 선택</string>
+    <string name="count.device_storage.select_file_pl">%d개 선택</string>
+    <string name="empty.directory">빈 디렉토리</string>
+</resources>

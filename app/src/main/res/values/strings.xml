@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">file-picker</string>
+
+    <string name="btn.select">Select</string>
+    <string name="btn.cancel">Cancel</string>
+    <string name="toast.write_post.attach_file_limit">Only %d files can be attached</string>
+    <string name="alert.write_post.file_size_limit.android">Only files up to %dMB can be attached</string>
+    <string name="toast.device.storage_removed">Storage was removed or unmounted.</string>
+    <string name="toast.write_post.attach_file_error">Error selecting File</string>
+    <string name="toast.write_post.attach_incorrect_file_format">Incorrect file format</string>
+    <string name="count.device_storage.select_file">Select %d item</string>
+    <string name="count.device_storage.select_file_pl">Select %d items</string>
+    <string name="empty.directory">Empty Directory</string>
 </resources>

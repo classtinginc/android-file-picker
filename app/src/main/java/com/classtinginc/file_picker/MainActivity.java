@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.classtinginc.file_picker.consts.TranslationKey;
+
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -14,12 +18,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final HashMap<TranslationKey, String> translations = new HashMap<>();
+
+        translations.put(TranslationKey.BTN_CANCEL, getString(R.string.btn_cancel));
+        translations.put(TranslationKey.BTN_SELECT, getString(R.string.btn_select));
+        translations.put(TranslationKey.TOAST_GUIDE_MAX_FILES_COUNT, getString(R.string.toast_write_post_attach_file_limit));
+        translations.put(TranslationKey.TOAST_GUIDE_MAX_FILE_SIZE, getString(R.string.alert_write_post_file_size_limit_android));
+        translations.put(TranslationKey.MSG_SELECT_ITEM, getString(R.string.count_device_storage_select_file));
+        translations.put(TranslationKey.MSG_SELECT_ITEM_PL, getString(R.string.count_device_storage_select_file_pl));
+
         findViewById(R.id.multiple).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FilePicker.with(MainActivity.this)
                         .style(R.style.FilePickerStyle)
                         .maxCount(2)
+                        .translations(translations)
                         .allowMultiple(true)
                         .startActivityForResult(1);
             }
