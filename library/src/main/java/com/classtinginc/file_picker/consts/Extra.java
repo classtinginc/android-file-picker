@@ -5,6 +5,7 @@ package com.classtinginc.file_picker.consts;
  */
 
 public class Extra {
+    public static final String STYLE = "style";
     public static final String MAX_FILES_COUNT = "max_files_count";
     public static final String MAX_FILE_SIZE = "max_file_size";
     public static final String ALLOW_MULTIPLE= "allow_multiple";

@@ -82,11 +82,12 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		setTheme(getIntent().getIntExtra(Extra.STYLE, R.style.AppTheme_NoActionBar));
 
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 		
 		Intent intent = getIntent();
