@@ -14,10 +14,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.click).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.multiple).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FilePicker.with(MainActivity.this)
+                        .maxCount(2)
+                        .allowMultiple(true)
+                        .startActivityForResult(1);
+            }
+        });
+
+        findViewById(R.id.single).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilePicker.with(MainActivity.this)
+                        .maxCount(2)
+                        .allowMultiple(false)
                         .startActivityForResult(1);
             }
         });
