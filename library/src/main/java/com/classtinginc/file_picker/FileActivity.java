@@ -55,8 +55,6 @@ import java.util.Map.Entry;
  */
 public class FileActivity extends AppCompatActivity implements OnBackStackChangedListener {
 
-	public static final String EXTRA_FILES = "files";
-	public static final int RESULT_ATTACHED_FILES = 110;
     public static final String PATH = "path";
 	public static final String EXTERNAL_BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -109,7 +107,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 			addFragment();
 		} else {
 			path = savedInstanceState.getString(PATH);
-			selectedFiles = (HashMap<String, String>)savedInstanceState.getSerializable(EXTRA_FILES);
+			selectedFiles = (HashMap<String, String>)savedInstanceState.getSerializable(Extra.DATA);
 			maxFilesCount = savedInstanceState.getInt(Extra.MAX_FILES_COUNT);
             maxFileSize = savedInstanceState.getLong(Extra.MAX_FILE_SIZE);
             allowMultiple = intent.getBooleanExtra(Extra.ALLOW_MULTIPLE, Extra.DEFAULT_ALLOW_MULTIPLE);
@@ -165,7 +163,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 		super.onSaveInstanceState(outState);
 		
 		outState.putString(PATH, path);
-		outState.putSerializable(EXTRA_FILES, selectedFiles);
+		outState.putSerializable(Extra.DATA, selectedFiles);
 		outState.putInt(Extra.MAX_FILES_COUNT, maxFilesCount);
 		outState.putLong(Extra.MAX_FILE_SIZE, maxFileSize);
 		outState.putBoolean(Extra.ALLOW_MULTIPLE, allowMultiple);
@@ -278,7 +276,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 			ArrayList<com.classtinginc.file_picker.model.File> files = new ArrayList<>();
             files.add(temp);
 
-			setResult(RESULT_ATTACHED_FILES, new Intent().putExtra(EXTRA_FILES, new Gson().toJson(files)));
+			setResult(RESULT_OK, new Intent().putExtra(Extra.DATA, new Gson().toJson(files)));
 			finish();
 		} else {
 			setResult(RESULT_CANCELED);	
@@ -299,7 +297,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
                 files.add(item);
             }
 			
-			setResult(RESULT_ATTACHED_FILES, new Intent().putExtra(EXTRA_FILES, new Gson().toJson(files)));
+			setResult(RESULT_OK, new Intent().putExtra(Extra.DATA, new Gson().toJson(files)));
 			finish();
 		} else {
 			setResult(RESULT_CANCELED);	

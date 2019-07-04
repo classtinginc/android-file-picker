@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.classtinginc.file_picker.consts.Extra;
 import com.classtinginc.file_picker.consts.TranslationKey;
 
 import java.util.HashMap;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data != null) {
-            Log.e("filePicker", data.toString());
+            Log.e("filePicker", data.getStringExtra(Extra.DATA));
         }
     }
 }
