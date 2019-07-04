@@ -48,7 +48,7 @@ public class ItemFile extends RelativeLayout {
         checkBox.setFocusable(false);
     }
 
-    public void bind(File file, boolean isSelected, boolean allowMultiple) {
+    public void bind(File file, boolean isChecked, boolean allowMultiple) {
         name.setText(file.getName());
         icon.setImageResource(file.isDirectory() ? R.drawable.finder_folder : R.drawable.ic_attached_file);
 
@@ -56,7 +56,7 @@ public class ItemFile extends RelativeLayout {
             checkBox.setVisibility(View.GONE);
         } else {
             checkBox.setVisibility(View.VISIBLE);
-            checkBox.setSelected(isSelected);
+            checkBox.setChecked(isChecked);
         }
     }
 }

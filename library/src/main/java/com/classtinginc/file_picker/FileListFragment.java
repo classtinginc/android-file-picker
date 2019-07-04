@@ -20,6 +20,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
@@ -34,14 +35,12 @@ import com.classtinginc.library.R;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Fragment that displays a list of Files in a given path.
  */
-public class FileListFragment extends ListFragment implements
-		LoaderManager.LoaderCallbacks<List<File>> {
+public class FileListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<File>> {
 
 	private static final int LOADER_ID = 0;
 
@@ -109,7 +108,7 @@ public class FileListFragment extends ListFragment implements
         getListView().setDivider(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.grey_300)));
         getListView().setDividerHeight(1);
 		
-		getLoaderManager().initLoader(LOADER_ID, null, this);
+		LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
 		super.onActivityCreated(savedInstanceState);
 	}
 
@@ -156,12 +155,13 @@ public class FileListFragment extends ListFragment implements
 	}
 
 	@Override
+    @NonNull
 	public Loader<List<File>> onCreateLoader(int id, Bundle args) {
 		return new FileLoader(getActivity(), path);
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<File>> loader, List<File> data) {
+	public void onLoadFinished(@NonNull Loader<List<File>> loader, List<File> data) {
 		List<File> mData = new ArrayList<File>();
 		
 		for (File file : data) {
@@ -181,7 +181,7 @@ public class FileListFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<File>> loader) {
+	public void onLoaderReset(@NonNull Loader<List<File>> loader) {
 		adapter.clear();
 	}
 }
