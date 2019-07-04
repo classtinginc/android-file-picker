@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.classtinginc.file_picker.consts.Extra;
 import com.classtinginc.file_picker.utils.FileUtils;
+import com.classtinginc.file_picker.utils.TranslationUtils;
 import com.classtinginc.library.R;
 
 import java.io.File;
@@ -91,7 +92,7 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		setEmptyText(getString(R.string.empty_directory));
+		setEmptyText(TranslationUtils.getMsgEmptyDir(getActivity()));
 		
 		final ListView listView = getListView();
 		listView.setItemsCanFocus(false);
@@ -136,10 +137,10 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 		}
 
 		if (file.length() == 0) {
-			Toast.makeText(getActivity(), getString(R.string.toast_write_post_attach_incorrect_file_format), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), TranslationUtils.getToastGuideIncorrectFileFormat(getActivity()), Toast.LENGTH_SHORT).show();
 			return;
 		} else if (file.length() > maxFileSize) {
-			Toast.makeText(getActivity(), getString(R.string.alert_write_post_file_size_limit_android, (maxFileSize / (1024 * 1024))), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), TranslationUtils.getToastGuideMaxFileSize(getActivity(), (int) (maxFileSize / (1024 * 1024))), Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -147,7 +148,7 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 			path = file.getAbsolutePath();
 			fileActivity.onFileSelected(file);
 		} else if (fileActivity.getSelectedFiles().size() == maxFilesCount && !fileActivity.isExistFile(file)) {
-			Toast.makeText(getActivity(), getString(R.string.toast_write_post_attach_file_limit, maxFilesCount), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), TranslationUtils.getToastGuideMaxFilesCount(getActivity(), maxFilesCount), Toast.LENGTH_SHORT).show();
 		} else {
 			fileActivity.onMultipleSelected(position, file);
 			adapter.notifyDataSetChanged();

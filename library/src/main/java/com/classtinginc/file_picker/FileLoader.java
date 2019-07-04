@@ -32,19 +32,19 @@ public class FileLoader extends AsyncTaskLoader<List<File>> {
 			| FileObserver.MOVED_FROM | FileObserver.MOVED_TO
 			| FileObserver.MODIFY | FileObserver.MOVE_SELF;
 	
-	private FileObserver mFileObserver;
+	private FileObserver fileObserver;
 	
-	private List<File> mData;
-	private String mPath;
+	private List<File> data;
+	private String path;
 
 	public FileLoader(Context context, String path) {
 		super(context);
-		this.mPath = path;
+		this.path = path;
 	}
 
 	@Override
 	public List<File> loadInBackground() {
-		return FileUtils.getFileList(mPath);
+		return FileUtils.getFileList(path);
 	}
 
 	@Override
@@ -54,8 +54,8 @@ public class FileLoader extends AsyncTaskLoader<List<File>> {
 			return;
 		}
 
-		List<File> oldData = mData;
-		mData = data;
+		List<File> oldData = this.data;
+		this.data = data;
 		
 		if (isStarted())
 			super.deliverResult(data);
@@ -66,20 +66,20 @@ public class FileLoader extends AsyncTaskLoader<List<File>> {
 
 	@Override
 	protected void onStartLoading() {
-		if (mData != null)
-			deliverResult(mData);
+		if (data != null)
+			deliverResult(data);
 
-		if (mFileObserver == null) {
-			mFileObserver = new FileObserver(mPath, FILE_OBSERVER_MASK) {
+		if (fileObserver == null) {
+			fileObserver = new FileObserver(path, FILE_OBSERVER_MASK) {
 				@Override
 				public void onEvent(int event, String path) {
 					onContentChanged();	
 				}
 			};
 		}
-		mFileObserver.startWatching();
+		fileObserver.startWatching();
 		
-		if (takeContentChanged() || mData == null)
+		if (takeContentChanged() || data == null)
 			forceLoad();
 	}
 
@@ -92,9 +92,9 @@ public class FileLoader extends AsyncTaskLoader<List<File>> {
 	protected void onReset() {
 		onStopLoading();
 
-		if (mData != null) {
-			onReleaseResources(mData);
-			mData = null;
+		if (data != null) {
+			onReleaseResources(data);
+			data = null;
 		}
 	}
 
@@ -107,9 +107,9 @@ public class FileLoader extends AsyncTaskLoader<List<File>> {
 
 	protected void onReleaseResources(List<File> data) {
 		
-		if (mFileObserver != null) {
-			mFileObserver.stopWatching();
-			mFileObserver = null;
+		if (fileObserver != null) {
+			fileObserver.stopWatching();
+			fileObserver = null;
 		}
 	}
 }

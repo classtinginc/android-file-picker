@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.classtinginc.file_picker.consts.Extra;
+import com.classtinginc.file_picker.consts.TranslationKey;
+
+import java.util.HashMap;
 
 /**
  * Created by classting on 02/07/2019.
@@ -16,6 +19,7 @@ public class FilePicker {
     private long maxFileSize = Extra.DEFAULT_FILE_SIZE;
     private boolean allowMultiple = Extra.DEFAULT_ALLOW_MULTIPLE;
     private int style;
+    private HashMap<TranslationKey, String> translations = new HashMap<>();
 
     public FilePicker(Activity activity) {
         this.activity = activity;
@@ -45,12 +49,18 @@ public class FilePicker {
         return this;
     }
 
+    public FilePicker translations(HashMap<TranslationKey, String> translations) {
+        this.translations = translations;
+        return this;
+    }
+
     public void startActivityForResult(int requestCode) {
         Intent intent = new Intent(activity, FileActivity.class);
         intent.putExtra(Extra.STYLE, style);
         intent.putExtra(Extra.MAX_FILES_COUNT, maxFilesCount);
         intent.putExtra(Extra.MAX_FILE_SIZE, maxFileSize);
         intent.putExtra(Extra.ALLOW_MULTIPLE, allowMultiple);
+        intent.putExtra(Extra.TRANSLATIONS, translations);
         activity.startActivityForResult(intent, requestCode);
     }
 }

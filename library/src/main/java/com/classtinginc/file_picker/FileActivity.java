@@ -37,8 +37,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.classtinginc.file_picker.consts.Extra;
+import com.classtinginc.file_picker.consts.TranslationKey;
 import com.classtinginc.file_picker.utils.ActivityUtils;
 import com.classtinginc.file_picker.utils.FileUtils;
+import com.classtinginc.file_picker.utils.TranslationUtils;
 import com.classtinginc.library.R;
 import com.google.gson.Gson;
 
@@ -58,22 +60,21 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
     public static final String PATH = "path";
 	public static final String EXTERNAL_BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-	private FragmentManager mFragmentManager;
+	private FragmentManager fragmentManager;
 	private HashMap<String, String> selectedFiles;
 	private int maxFilesCount;
 	private long maxFileSize;
     public  boolean allowMultiple;
-    private String mPath;
+    private String path;
 
     private LinearLayout selectionContainer;
 	private Button btnCancel;
 	private Button btnSelect;
-    private Toolbar mToolbar;
 	
 	private BroadcastReceiver mStorageListener = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Toast.makeText(context, R.string.toast_device_storage_removed, Toast.LENGTH_LONG).show();
+			Toast.makeText(context, TranslationUtils.getToastRemovedStorage(context), Toast.LENGTH_LONG).show();
 			onFileSelected(null);
 		}
 	};
@@ -87,16 +88,19 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file);
 
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 		
 		Intent intent = getIntent();
 
-		mFragmentManager = getSupportFragmentManager();
-		mFragmentManager.addOnBackStackChangedListener(this);
+		fragmentManager = getSupportFragmentManager();
+		fragmentManager.addOnBackStackChangedListener(this);
+
+		TranslationUtils.setTranslations(
+				(HashMap< TranslationKey, String>) getIntent().getSerializableExtra(Extra.TRANSLATIONS));
 
 		if (savedInstanceState == null) {
-			mPath = EXTERNAL_BASE_PATH;
+			path = EXTERNAL_BASE_PATH;
 			selectedFiles = new HashMap<>();
 			maxFilesCount = intent.getIntExtra(Extra.MAX_FILES_COUNT, Extra.DEFAULT_FILES_COUNT);
             maxFileSize = intent.getLongExtra(Extra.MAX_FILE_SIZE, Extra.DEFAULT_FILE_SIZE);
@@ -104,18 +108,21 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 
 			addFragment();
 		} else {
-			mPath = savedInstanceState.getString(PATH);
+			path = savedInstanceState.getString(PATH);
 			selectedFiles = (HashMap<String, String>)savedInstanceState.getSerializable(EXTRA_FILES);
 			maxFilesCount = savedInstanceState.getInt(Extra.MAX_FILES_COUNT);
             maxFileSize = savedInstanceState.getLong(Extra.MAX_FILE_SIZE);
             allowMultiple = intent.getBooleanExtra(Extra.ALLOW_MULTIPLE, Extra.DEFAULT_ALLOW_MULTIPLE);
 		}
 
-        ActivityUtils.setNavigation(getSupportActionBar(), mPath);
+        ActivityUtils.setNavigation(getSupportActionBar(), path);
 
 		selectionContainer = findViewById(R.id.selection_container);
 		btnCancel = findViewById(R.id.btn_cancel);
 		btnSelect = findViewById(R.id.btn_select);
+
+		btnCancel.setText(TranslationUtils.getButtonCancel(this));
+		btnSelect.setText(TranslationUtils.getButtonSelect(this));
 
 		btnCancel.setOnClickListener(new OnClickListener() {
 
@@ -124,7 +131,6 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 				onFileSelected(null);
 			}
 		});
-		
 		btnSelect.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -158,7 +164,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		
-		outState.putString(PATH, mPath);
+		outState.putString(PATH, path);
 		outState.putSerializable(EXTRA_FILES, selectedFiles);
 		outState.putInt(Extra.MAX_FILES_COUNT, maxFilesCount);
 		outState.putLong(Extra.MAX_FILE_SIZE, maxFileSize);
@@ -168,16 +174,16 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	@Override
 	public void onBackStackChanged() {
 		
-		int count = mFragmentManager.getBackStackEntryCount();
+		int count = fragmentManager.getBackStackEntryCount();
 		if (count > 0) {
-            BackStackEntry fragment = mFragmentManager.getBackStackEntryAt(count - 1);
-            mPath = fragment.getName();
+            BackStackEntry fragment = fragmentManager.getBackStackEntryAt(count - 1);
+            path = fragment.getName();
 		} else {
-		    mPath = EXTERNAL_BASE_PATH;
+		    path = EXTERNAL_BASE_PATH;
 		}
 		
 		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setTitle(mPath);
+		actionBar.setTitle(path);
 	}
 
     @Override
@@ -216,20 +222,20 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 		
 		if (selectedFilesNumber == 0) {
 			btnSelect.setEnabled(false);
-			btnSelect.setText(getString(R.string.btn_select));
+			btnSelect.setText(TranslationUtils.getButtonSelect(this));
 		} else if (selectedFilesNumber == 1) {
 			btnSelect.setEnabled(true);
-			String selectionMsg = String.format(getString(R.string.count_device_storage_select_file), selectedFilesNumber);
+			String selectionMsg = TranslationUtils.getMsgSelectItem(this, selectedFilesNumber);
 			btnSelect.setText(selectionMsg);
 		} else {
 			btnSelect.setEnabled(true);
-			String selectionMsg = String.format(getString(R.string.count_device_storage_select_file_pl), selectedFilesNumber);
+			String selectionMsg = TranslationUtils.getMsgSelectItemPl(this, selectedFilesNumber);
 			btnSelect.setText(selectionMsg);
 		}
 	}
 
 	private FileListFragment newFragment() {
-        return FileListFragment.newInstance(mPath, maxFilesCount, maxFileSize, allowMultiple);
+        return FileListFragment.newInstance(path, maxFilesCount, maxFileSize, allowMultiple);
     }
 
 	/**
@@ -237,7 +243,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	 */
 	private void addFragment() {
 		FileListFragment fragment = newFragment();
-		mFragmentManager.beginTransaction()
+		fragmentManager.beginTransaction()
 				.add(R.id.explorer_fragment, fragment).commit();
 	}
 
@@ -248,13 +254,13 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	 * @param file The file (directory) to display.
 	 */
 	private void replaceFragment(File file) {
-        mPath = file.getAbsolutePath();
+        path = file.getAbsolutePath();
 
         FileListFragment fragment = newFragment();
-		mFragmentManager.beginTransaction()
+		fragmentManager.beginTransaction()
 				.replace(R.id.explorer_fragment, fragment)
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-				.addToBackStack(mPath).commit();
+				.addToBackStack(path).commit();
 	}
 
 	/**
@@ -321,7 +327,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	
 	protected void onMultipleSelected(int position, File file) {
 		if (file == null) {
-			Toast.makeText(FileActivity.this, R.string.toast_write_post_attach_file_error, Toast.LENGTH_SHORT).show();
+			Toast.makeText(FileActivity.this, TranslationUtils.getToastGuideErrorOnFile(this), Toast.LENGTH_SHORT).show();
             return;
 		}
 
@@ -338,7 +344,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 		if (selectedFiles != null) {
 			finishWithResult();
 		} else {
-			Toast.makeText(FileActivity.this, R.string.toast_write_post_attach_file_error, Toast.LENGTH_SHORT).show();
+			Toast.makeText(FileActivity.this, TranslationUtils.getToastGuideErrorOnFile(this), Toast.LENGTH_SHORT).show();
 		}
 	}
 	
