@@ -29,13 +29,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.classtinginc.file_picker.consts.Extra;
@@ -47,8 +45,6 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 
@@ -61,8 +57,6 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	public static final int RESULT_ATTACHED_FILES = 110;
     public static final String PATH = "path";
 	public static final String EXTERNAL_BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
-	
-
 
 	private FragmentManager mFragmentManager;
 	private HashMap<String, String> selectedFiles;
@@ -72,7 +66,6 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
     private String mPath;
 
     private LinearLayout selectionContainer;
-	private TextView selectionMessage;
 	private Button btnCancel;
 	private Button btnSelect;
     private Toolbar mToolbar;
@@ -119,10 +112,9 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 
         ActivityUtils.setNavigation(getSupportActionBar(), mPath);
 
-		selectionContainer = findViewById(R.id.selectionContainer);
-		selectionMessage = findViewById(R.id.selectionMessage);
-		btnCancel = findViewById(R.id.btnCancel);
-		btnSelect = findViewById(R.id.btnSelect);
+		selectionContainer = findViewById(R.id.selection_container);
+		btnCancel = findViewById(R.id.btn_cancel);
+		btnSelect = findViewById(R.id.btn_select);
 
 		btnCancel.setOnClickListener(new OnClickListener() {
 
@@ -141,7 +133,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 		});
 
         if (allowMultiple) {
-			showSatusOfSelectionMenu();
+			showStatusOfSelectionMenu();
 			selectionContainer.setVisibility(View.VISIBLE);
 		} else {
 			selectionContainer.setVisibility(View.GONE);
@@ -189,7 +181,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
+        onBackPressed();
         return super.onOptionsItemSelected(item);
     }
 
@@ -206,9 +198,8 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	}
 
 	public boolean isExistFile(File file) {
-		Iterator it = selectedFiles.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pairs = (Map.Entry)it.next();
+		for (Object o : selectedFiles.entrySet()) {
+			Entry pairs = (Entry) o;
 			if (pairs.getValue().equals(file.getAbsolutePath())) {
 				return true;
 			}
@@ -217,24 +208,22 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 		return false;
 	}
 
-	public void showSatusOfSelectionMenu() {
+	public void showStatusOfSelectionMenu() {
 		selectionContainer.setVisibility(View.VISIBLE);
 
 		int selectedFilesNumber = getSelectedFiles().size();
 		
 		if (selectedFilesNumber == 0) {
 			btnSelect.setEnabled(false);
-			selectionMessage.setText(getString(R.string.message_post_select_file_from_device_storage));
-		} 
-		else if (selectedFilesNumber == 1) {
+			btnSelect.setText(getString(R.string.btn_select));
+		} else if (selectedFilesNumber == 1) {
 			btnSelect.setEnabled(true);
 			String selectionMsg = String.format(getString(R.string.count_device_storage_select_file), selectedFilesNumber);
-			selectionMessage.setText(selectionMsg);
-		}
-		else {
+			btnSelect.setText(selectionMsg);
+		} else {
 			btnSelect.setEnabled(true);
 			String selectionMsg = String.format(getString(R.string.count_device_storage_select_file_pl), selectedFilesNumber);
-			selectionMessage.setText(selectionMsg);
+			btnSelect.setText(selectionMsg);
 		}
 	}
 
@@ -337,10 +326,10 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 
         if (!selectedFiles.containsKey(file.getName() + String.valueOf(position))) {
 			putSelectedFile(position, file);
-			showSatusOfSelectionMenu();
+			showStatusOfSelectionMenu();
 		} else {
 			removeSelectedFile(position, file);
-			showSatusOfSelectionMenu();
+			showStatusOfSelectionMenu();
 		}
 	}
 	

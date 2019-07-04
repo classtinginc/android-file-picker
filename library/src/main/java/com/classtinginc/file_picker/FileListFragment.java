@@ -139,7 +139,7 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 			Toast.makeText(getActivity(), getString(R.string.toast_write_post_attach_incorrect_file_format), Toast.LENGTH_SHORT).show();
 			return;
 		} else if (file.length() > maxFileSize) {
-			Toast.makeText(getActivity(), getString(R.string.alert_write_post_file_size_limit_android), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getString(R.string.alert_write_post_file_size_limit_android, (maxFileSize / (1024 * 1024))), Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -147,7 +147,7 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 			path = file.getAbsolutePath();
 			fileActivity.onFileSelected(file);
 		} else if (fileActivity.getSelectedFiles().size() == maxFilesCount && !fileActivity.isExistFile(file)) {
-			Toast.makeText(getActivity(), getString(R.string.toast_write_post_attach_file_limit), Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getString(R.string.toast_write_post_attach_file_limit, maxFilesCount), Toast.LENGTH_SHORT).show();
 		} else {
 			fileActivity.onMultipleSelected(position, file);
 			adapter.notifyDataSetChanged();
