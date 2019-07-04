@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FilePicker.with(MainActivity.this)
+                        .style(R.style.FilePickerStyle)
                         .maxCount(2)
                         .allowMultiple(true)
                         .startActivityForResult(1);
