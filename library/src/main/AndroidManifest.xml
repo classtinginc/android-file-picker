@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="com.classtinginc.library">
+    package="com.classtinginc.library.file_picker">
 
     <application>
 
