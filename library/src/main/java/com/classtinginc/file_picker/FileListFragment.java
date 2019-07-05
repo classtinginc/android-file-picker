@@ -32,7 +32,7 @@ import android.widget.Toast;
 import com.classtinginc.file_picker.consts.Extra;
 import com.classtinginc.file_picker.utils.FileUtils;
 import com.classtinginc.file_picker.utils.TranslationUtils;
-import com.classtinginc.library.R;
+import com.classtinginc.library.file_picker.R;
 
 import java.io.File;
 import java.util.ArrayList;

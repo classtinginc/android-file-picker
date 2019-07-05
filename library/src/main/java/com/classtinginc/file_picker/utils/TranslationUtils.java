@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 
 import com.classtinginc.file_picker.consts.TranslationKey;
-import com.classtinginc.library.R;
+import com.classtinginc.library.file_picker.R;
 
 /**
  * Created by classting on 04/07/2019.

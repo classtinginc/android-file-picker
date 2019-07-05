@@ -41,7 +41,7 @@ import com.classtinginc.file_picker.consts.TranslationKey;
 import com.classtinginc.file_picker.utils.ActivityUtils;
 import com.classtinginc.file_picker.utils.FileUtils;
 import com.classtinginc.file_picker.utils.TranslationUtils;
-import com.classtinginc.library.R;
+import com.classtinginc.library.file_picker.R;
 import com.google.gson.Gson;
 
 import java.io.File;
