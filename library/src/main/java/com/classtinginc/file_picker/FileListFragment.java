@@ -108,8 +108,8 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 
         getListView().setDivider(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.grey_300)));
         getListView().setDividerHeight(1);
-		
-		LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
+
+		getLoaderManager().initLoader(LOADER_ID, null, this);
 		super.onActivityCreated(savedInstanceState);
 	}
 
