@@ -61,6 +61,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	private FragmentManager fragmentManager;
 	private HashMap<String, String> selectedFiles;
 	private int maxFilesCount;
+	private int availableFilesCount;
 	private long maxFileSize;
     public  boolean allowMultiple;
     private String path;
@@ -101,6 +102,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 			path = EXTERNAL_BASE_PATH;
 			selectedFiles = new HashMap<>();
 			maxFilesCount = intent.getIntExtra(Extra.MAX_FILES_COUNT, Extra.DEFAULT_FILES_COUNT);
+			availableFilesCount = intent.getIntExtra(Extra.AVAILABLE_FILES_COUNT, Extra.DEFAULT_AVAILABLE_FILES_COUNT);
             maxFileSize = intent.getLongExtra(Extra.MAX_FILE_SIZE, Extra.DEFAULT_FILE_SIZE);
             allowMultiple = intent.getBooleanExtra(Extra.ALLOW_MULTIPLE, Extra.DEFAULT_ALLOW_MULTIPLE);
 
@@ -109,6 +111,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 			path = savedInstanceState.getString(PATH);
 			selectedFiles = (HashMap<String, String>)savedInstanceState.getSerializable(Extra.DATA);
 			maxFilesCount = savedInstanceState.getInt(Extra.MAX_FILES_COUNT);
+			availableFilesCount = savedInstanceState.getInt(Extra.AVAILABLE_FILES_COUNT);
             maxFileSize = savedInstanceState.getLong(Extra.MAX_FILE_SIZE);
             allowMultiple = intent.getBooleanExtra(Extra.ALLOW_MULTIPLE, Extra.DEFAULT_ALLOW_MULTIPLE);
 		}
@@ -165,6 +168,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 		outState.putString(PATH, path);
 		outState.putSerializable(Extra.DATA, selectedFiles);
 		outState.putInt(Extra.MAX_FILES_COUNT, maxFilesCount);
+		outState.putInt(Extra.AVAILABLE_FILES_COUNT, availableFilesCount);
 		outState.putLong(Extra.MAX_FILE_SIZE, maxFileSize);
 		outState.putBoolean(Extra.ALLOW_MULTIPLE, allowMultiple);
 	}
@@ -233,7 +237,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	}
 
 	private FileListFragment newFragment() {
-        return FileListFragment.newInstance(path, maxFilesCount, maxFileSize, allowMultiple);
+        return FileListFragment.newInstance(path, maxFilesCount, availableFilesCount, maxFileSize, allowMultiple);
     }
 
 	/**

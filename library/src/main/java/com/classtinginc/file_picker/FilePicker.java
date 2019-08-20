@@ -16,6 +16,7 @@ public class FilePicker {
 
     private Activity activity;
     private int maxFilesCount = Extra.DEFAULT_FILES_COUNT;
+    private int availableFilesCount = Extra.DEFAULT_AVAILABLE_FILES_COUNT;
     private long maxFileSize = Extra.DEFAULT_FILE_SIZE;
     private boolean allowMultiple = Extra.DEFAULT_ALLOW_MULTIPLE;
     private int style;
@@ -31,6 +32,11 @@ public class FilePicker {
 
     public FilePicker maxCount(int maxFilesCount) {
         this.maxFilesCount = maxFilesCount;
+        return this;
+    }
+
+    public FilePicker availableFilesCount(int availableFilesCount) {
+        this.availableFilesCount = availableFilesCount;
         return this;
     }
 
@@ -58,6 +64,7 @@ public class FilePicker {
         Intent intent = new Intent(activity, FileActivity.class);
         intent.putExtra(Extra.STYLE, style);
         intent.putExtra(Extra.MAX_FILES_COUNT, maxFilesCount);
+        intent.putExtra(Extra.AVAILABLE_FILES_COUNT, availableFilesCount);
         intent.putExtra(Extra.MAX_FILE_SIZE, maxFileSize);
         intent.putExtra(Extra.ALLOW_MULTIPLE, allowMultiple);
         intent.putExtra(Extra.TRANSLATIONS, translations);

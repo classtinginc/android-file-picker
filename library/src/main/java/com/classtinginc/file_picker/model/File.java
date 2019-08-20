@@ -1,8 +1,18 @@
 package com.classtinginc.file_picker.model;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
+import android.content.ContentResolver;
+import android.os.Environment;
+import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 //@EqualsAndHashCode(of = { "url" })
 public class File implements Serializable {
@@ -12,6 +22,8 @@ public class File implements Serializable {
     private String url;
 
     private long size;
+
+    private String type;
 
     public String getUrl() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
@@ -52,4 +64,6 @@ public class File implements Serializable {
 
         return url;
     }
+
+
 }

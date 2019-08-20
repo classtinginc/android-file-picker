@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 FilePicker.with(MainActivity.this)
                         .style(R.style.FilePickerStyle)
                         .maxCount(2)
+                        .availableFilesCount(2)
                         .translations(translations)
                         .allowMultiple(true)
                         .startActivityForResult(1);

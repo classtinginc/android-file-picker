@@ -48,6 +48,7 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 	private FileListAdapter adapter;
 	private String path;
 	private int maxFilesCount;
+	private int availableFilesCount;
 	private long maxFileSize;
 	private boolean allowMultiple;
 	private FileActivity fileActivity;
@@ -58,11 +59,12 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 	 * @param path The absolute path of the file (directory) to display.
 	 * @return A new Fragment with the given file path. 
 	 */
-	public static FileListFragment newInstance(String path, int maxFilesCount, long maxFileSize, boolean allowMultiple) {
+	public static FileListFragment newInstance(String path, int maxFilesCount, int availableFilesCount, long maxFileSize, boolean allowMultiple) {
 		FileListFragment fragment = new FileListFragment();
 		Bundle args = new Bundle();
 		args.putString(FileActivity.PATH, path);
 		args.putInt(Extra.MAX_FILES_COUNT, maxFilesCount);
+		args.putInt(Extra.AVAILABLE_FILES_COUNT, availableFilesCount);
 		args.putLong(Extra.MAX_FILE_SIZE, maxFileSize);
 		args.putBoolean(Extra.ALLOW_MULTIPLE, allowMultiple);
 
@@ -78,11 +80,13 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 		if (getArguments() != null) {
 			path = getArguments().getString(FileActivity.PATH);
 			maxFilesCount = getArguments().getInt(Extra.MAX_FILES_COUNT);
+			availableFilesCount = getArguments().getInt(Extra.AVAILABLE_FILES_COUNT);
 			maxFileSize = getArguments().getLong(Extra.MAX_FILE_SIZE);
 			allowMultiple = getArguments().getBoolean(Extra.ALLOW_MULTIPLE);
 		} else {
 			path = Environment.getExternalStorageDirectory().getAbsolutePath();
 			maxFilesCount = Extra.DEFAULT_FILES_COUNT;
+			availableFilesCount = Extra.DEFAULT_AVAILABLE_FILES_COUNT;
 			maxFileSize = Extra.DEFAULT_FILE_SIZE;
 			allowMultiple = Extra.DEFAULT_ALLOW_MULTIPLE;
 		}
@@ -147,7 +151,7 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 		if (!allowMultiple) {
 			path = file.getAbsolutePath();
 			fileActivity.onFileSelected(file);
-		} else if (fileActivity.getSelectedFiles().size() == maxFilesCount && !fileActivity.isExistFile(file)) {
+		} else if (fileActivity.getSelectedFiles().size() == availableFilesCount && !fileActivity.isExistFile(file)) {
 			Toast.makeText(getActivity(), TranslationUtils.getToastGuideMaxFilesCount(getActivity(), maxFilesCount), Toast.LENGTH_SHORT).show();
 		} else {
 			fileActivity.onMultipleSelected(position, file);
