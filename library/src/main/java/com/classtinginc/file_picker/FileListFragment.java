@@ -32,7 +32,7 @@ import android.widget.Toast;
 import com.classtinginc.file_picker.consts.Extra;
 import com.classtinginc.file_picker.utils.FileUtils;
 import com.classtinginc.file_picker.utils.TranslationUtils;
-import com.classtinginc.library.R;
+import com.classtinginc.library.file_picker.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -112,8 +112,8 @@ public class FileListFragment extends ListFragment implements LoaderManager.Load
 
         getListView().setDivider(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.grey_300)));
         getListView().setDividerHeight(1);
-		
-		LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
+
+		getLoaderManager().initLoader(LOADER_ID, null, this);
 		super.onActivityCreated(savedInstanceState);
 	}
 

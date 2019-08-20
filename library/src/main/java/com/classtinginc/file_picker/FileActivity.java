@@ -41,12 +41,13 @@ import com.classtinginc.file_picker.consts.TranslationKey;
 import com.classtinginc.file_picker.utils.ActivityUtils;
 import com.classtinginc.file_picker.utils.FileUtils;
 import com.classtinginc.file_picker.utils.TranslationUtils;
-import com.classtinginc.library.R;
+import com.classtinginc.library.file_picker.R;
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 
@@ -59,7 +60,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 	public static final String EXTERNAL_BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
 	private FragmentManager fragmentManager;
-	private HashMap<String, String> selectedFiles;
+	private LinkedHashMap<String, String> selectedFiles;
 	private int maxFilesCount;
 	private int availableFilesCount;
 	private long maxFileSize;
@@ -100,7 +101,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 
 		if (savedInstanceState == null) {
 			path = EXTERNAL_BASE_PATH;
-			selectedFiles = new HashMap<>();
+			selectedFiles = new LinkedHashMap<>();
 			maxFilesCount = intent.getIntExtra(Extra.MAX_FILES_COUNT, Extra.DEFAULT_FILES_COUNT);
 			availableFilesCount = intent.getIntExtra(Extra.AVAILABLE_FILES_COUNT, Extra.DEFAULT_AVAILABLE_FILES_COUNT);
             maxFileSize = intent.getLongExtra(Extra.MAX_FILE_SIZE, Extra.DEFAULT_FILE_SIZE);
@@ -109,7 +110,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 			addFragment();
 		} else {
 			path = savedInstanceState.getString(PATH);
-			selectedFiles = (HashMap<String, String>)savedInstanceState.getSerializable(Extra.DATA);
+			selectedFiles = (LinkedHashMap<String, String>)savedInstanceState.getSerializable(Extra.DATA);
 			maxFilesCount = savedInstanceState.getInt(Extra.MAX_FILES_COUNT);
 			availableFilesCount = savedInstanceState.getInt(Extra.AVAILABLE_FILES_COUNT);
             maxFileSize = savedInstanceState.getLong(Extra.MAX_FILE_SIZE);

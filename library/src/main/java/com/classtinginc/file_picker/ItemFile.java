@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.classtinginc.library.R;
+import com.classtinginc.library.file_picker.R;
 
 import java.io.File;
 
