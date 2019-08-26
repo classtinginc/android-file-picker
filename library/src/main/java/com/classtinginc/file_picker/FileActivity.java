@@ -90,7 +90,7 @@ public class FileActivity extends AppCompatActivity implements OnBackStackChange
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-		
+
 		Intent intent = getIntent();
 
 		fragmentManager = getSupportFragmentManager();

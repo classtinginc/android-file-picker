@@ -1,0 +1,3 @@
+<resources>
+    <string name="alert.device_permission_denied">この作業を許可しなかったため、サービス利用が制限されます。\n設定＞アプリケーションにて変更可能です</string>
+</resources>

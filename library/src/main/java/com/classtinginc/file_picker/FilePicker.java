@@ -1,12 +1,20 @@
 package com.classtinginc.file_picker;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.classtinginc.file_picker.consts.Extra;
 import com.classtinginc.file_picker.consts.TranslationKey;
+import com.classtinginc.library.file_picker.R;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.HashMap;
+
+import rx.functions.Action1;
 
 /**
  * Created by classting on 02/07/2019.
@@ -61,13 +69,33 @@ public class FilePicker {
     }
 
     public void startActivityForResult(int requestCode) {
-        Intent intent = new Intent(activity, FileActivity.class);
-        intent.putExtra(Extra.STYLE, style);
-        intent.putExtra(Extra.MAX_FILES_COUNT, maxFilesCount);
-        intent.putExtra(Extra.AVAILABLE_FILES_COUNT, availableFilesCount);
-        intent.putExtra(Extra.MAX_FILE_SIZE, maxFileSize);
-        intent.putExtra(Extra.ALLOW_MULTIPLE, allowMultiple);
-        intent.putExtra(Extra.TRANSLATIONS, translations);
-        activity.startActivityForResult(intent, requestCode);
+        checkPermission(requestCode);
+    }
+
+    @TargetApi(16)
+    private void checkPermission(final int requestCode) {
+        RxPermissions.getInstance(activity)
+                .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean granted) {
+                        if (granted) {
+                            Intent intent = new Intent(activity, FileActivity.class);
+                            intent.putExtra(Extra.STYLE, style);
+                            intent.putExtra(Extra.MAX_FILES_COUNT, maxFilesCount);
+                            intent.putExtra(Extra.AVAILABLE_FILES_COUNT, availableFilesCount);
+                            intent.putExtra(Extra.MAX_FILE_SIZE, maxFileSize);
+                            intent.putExtra(Extra.ALLOW_MULTIPLE, allowMultiple);
+                            intent.putExtra(Extra.TRANSLATIONS, translations);
+                            activity.startActivityForResult(intent, requestCode);
+                        } else {
+                            Toast.makeText(
+                                    activity,
+                                    activity.getString(R.string.alert_device_permission_denied),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    }
+                });
     }
 }

@@ -11,4 +11,5 @@
     <string name="msg.select_item">Select %d item</string>
     <string name="msg.select_item_pl">Select %d items</string>
     <string name="msg.empty_directory">Empty Directory</string>
+    <string name="alert.device_permission_denied">Change the persmission settings to continue using this app.\nGo to Settings > Applications to change settings.</string>
 </resources>
